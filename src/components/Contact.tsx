@@ -1,0 +1,343 @@
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Send,
+  Check,
+  Mail,
+  Phone,
+  Copy,
+  CheckCheck,
+  Clock,
+  MapPin,
+  RotateCcw,
+  Loader2,
+} from 'lucide-react';
+
+export const Contact: React.FC = () => {
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [selectedServices, setSelectedServices] = useState<string[]>(['UX/UI Design']);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const availableServices = [
+    'UX/UI Design',
+    'Web Development',
+    'Design Systems',
+    'Mobile App Design',
+    'FinTech Platform',
+    'Consulting',
+  ];
+
+  const toggleService = (service: string) => {
+    if (selectedServices.includes(service)) {
+      if (selectedServices.length > 1) {
+        setSelectedServices(selectedServices.filter((s) => s !== service));
+      }
+    } else {
+      setSelectedServices([...selectedServices, service]);
+    }
+  };
+
+  const copyToClipboard = (text: string, type: 'email' | 'phone') => {
+    navigator.clipboard.writeText(text);
+    if (type === 'email') {
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2500);
+    } else {
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 2500);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate smooth network submission
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+    }, 900);
+  };
+
+  const handleReset = () => {
+    setSubmitted(false);
+    setFormData({ name: '', email: '', message: '' });
+    setSelectedServices(['UX/UI Design']);
+  };
+
+  return (
+    <section id="contact" className="py-24 bg-[#f5f5f7] dark:bg-[#000000] transition-colors duration-300 relative">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="max-w-3xl mb-14 text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 dark:bg-teal-500/15 text-teal-600 dark:text-teal-400 text-xs font-semibold uppercase tracking-wider mb-3.5"
+          >
+            <span>Let's Connect</span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.05 }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 dark:text-[#f5f5f7] mb-4"
+          >
+            Get in touch.
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-slate-600 dark:text-[#86868b] text-base sm:text-lg leading-relaxed"
+          >
+            Have an upcoming project, a product to design, or a web application to build? Let's discuss how we can collaborate.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          {/* Left Column: Direct Contact & Availability Info */}
+          <div className="lg:col-span-5 space-y-6 text-left">
+            <div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-[#f5f5f7] mb-2 leading-snug">
+                Let's build something intentional.
+              </h3>
+              <p className="text-slate-600 dark:text-[#86868b] text-sm sm:text-[15px] leading-relaxed">
+                Whether you need end-to-end product design, a scalable tokenized design system, or a high-performance web application, I am available for freelance contracts and engineering roles.
+              </p>
+            </div>
+
+            {/* Direct Copyable Contact Cards */}
+            <div className="space-y-3">
+              {/* Email Card */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#1d1d1f] border border-slate-200/70 dark:border-white/5 flex items-center justify-between group transition-all duration-200 hover:shadow-xs">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center flex-shrink-0">
+                    <Mail size={20} className="stroke-[1.8]" />
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 dark:text-[#86868b] block font-medium">Direct Email</span>
+                    <a
+                      href="mailto:sreypokd@gmail.com"
+                      className="text-sm sm:text-[15px] font-semibold text-slate-900 dark:text-[#f5f5f7] hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+                    >
+                      sreypokd@gmail.com
+                    </a>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard('sreypokd@gmail.com', 'email')}
+                  className="p-2.5 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-[#f5f5f7] hover:bg-slate-100 dark:hover:bg-[#252528] transition-colors cursor-pointer active:scale-95"
+                  title="Copy email to clipboard"
+                  aria-label="Copy email"
+                >
+                  {copiedEmail ? <CheckCheck size={18} className="text-teal-600 dark:text-teal-400" /> : <Copy size={18} />}
+                </button>
+              </div>
+
+              {/* Phone Card */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#1d1d1f] border border-slate-200/70 dark:border-white/5 flex items-center justify-between group transition-all duration-200 hover:shadow-xs">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center flex-shrink-0">
+                    <Phone size={20} className="stroke-[1.8]" />
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500 dark:text-[#86868b] block font-medium">Direct Phone</span>
+                    <a
+                      href="tel:+885884501458"
+                      className="text-sm sm:text-[15px] font-semibold text-slate-900 dark:text-[#f5f5f7] hover:text-teal-600 dark:hover:text-teal-400 transition-colors font-mono"
+                    >
+                      (+885) 88 45 01 458
+                    </a>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard('+885884501458', 'phone')}
+                  className="p-2.5 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-[#f5f5f7] hover:bg-slate-100 dark:hover:bg-[#252528] transition-colors cursor-pointer active:scale-95"
+                  title="Copy phone to clipboard"
+                  aria-label="Copy phone number"
+                >
+                  {copiedPhone ? <CheckCheck size={18} className="text-teal-600 dark:text-teal-400" /> : <Copy size={18} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Availability & Location Info */}
+            <div className="p-5 rounded-2xl bg-slate-200/60 dark:bg-[#161618] border border-slate-200/50 dark:border-white/5 space-y-3">
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-700 dark:text-[#86868b]">
+                <MapPin size={16} className="text-teal-600 dark:text-teal-400 flex-shrink-0" />
+                <span className="dark:text-[#f5f5f7]">Phnom Penh, Cambodia (UTC+7)</span>
+              </div>
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-700 dark:text-[#86868b]">
+                <Clock size={16} className="text-teal-600 dark:text-teal-400 flex-shrink-0" />
+                <span>Typical response time: Within 24 hours</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Clean Interactive Form */}
+          <div className="lg:col-span-7">
+            <div className="bg-white dark:bg-[#1d1d1f] rounded-2xl p-7 sm:p-9 text-left border border-slate-200/70 dark:border-white/5 shadow-xs">
+              <AnimatePresence mode="wait">
+                {submitted ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                    className="py-12 flex flex-col items-center justify-center text-center space-y-4"
+                  >
+                    <div className="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                      <Check size={32} className="stroke-[2.5]" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-900 dark:text-[#f5f5f7]">
+                      Message Received!
+                    </h3>
+                    <p className="text-slate-600 dark:text-[#86868b] text-sm max-w-sm leading-relaxed">
+                      Thank you for reaching out, <span className="font-semibold text-slate-900 dark:text-white">{formData.name || 'friend'}</span>. I will review your message and get back to you within 24 hours.
+                    </p>
+                    <div className="pt-4">
+                      <button
+                        type="button"
+                        onClick={handleReset}
+                        className="inline-flex items-center gap-2 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-800 dark:text-[#f5f5f7] font-medium px-5 py-2.5 rounded-full text-xs transition-colors cursor-pointer"
+                      >
+                        <RotateCcw size={14} />
+                        <span>Send another message</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Service Interest Pill Selector */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <label className="block text-xs font-bold text-slate-700 dark:text-[#86868b] uppercase tracking-wider">
+                          I'm interested in
+                        </label>
+                        <span className="text-[11px] text-slate-400 dark:text-slate-500">
+                          Select one or more
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {availableServices.map((service) => {
+                          const isSelected = selectedServices.includes(service);
+                          return (
+                            <button
+                              key={service}
+                              type="button"
+                              onClick={() => toggleService(service)}
+                              className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer active:scale-95 ${
+                                isSelected
+                                  ? 'bg-teal-500 text-white dark:bg-teal-400 dark:text-slate-950 font-semibold shadow-xs'
+                                  : 'bg-slate-100 dark:bg-[#262629] text-slate-700 dark:text-[#86868b] hover:bg-slate-200/80 dark:hover:bg-[#303034] dark:hover:text-[#f5f5f7]'
+                              }`}
+                            >
+                              {service}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Name & Email Fields */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                        <label htmlFor="name" className="block text-xs font-bold text-slate-700 dark:text-[#86868b] uppercase tracking-wider">
+                          Your Name <span className="text-teal-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          required
+                          placeholder="e.g. Lyden"
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          className="w-full bg-slate-50 dark:bg-[#141416] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-[#f5f5f7] placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-teal-400/20 transition-all"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label htmlFor="email" className="block text-xs font-bold text-slate-700 dark:text-[#86868b] uppercase tracking-wider">
+                          Your Email <span className="text-teal-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          required
+                          placeholder="e.g. lyden@example.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="w-full bg-slate-50 dark:bg-[#141416] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-[#f5f5f7] placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-teal-400/20 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Message Field */}
+                    <div className="space-y-2">
+                      <label htmlFor="message" className="block text-xs font-bold text-slate-700 dark:text-[#86868b] uppercase tracking-wider">
+                        Project Message <span className="text-teal-500">*</span>
+                      </label>
+                      <textarea
+                        id="message"
+                        required
+                        rows={4}
+                        placeholder="Tell me about your product goals, scope, and timeline..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        className="w-full bg-slate-50 dark:bg-[#141416] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3.5 text-sm text-slate-900 dark:text-[#f5f5f7] placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-teal-500 dark:focus:border-teal-400 focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-teal-400/20 transition-all resize-y"
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="flex items-center justify-between pt-1">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-400 dark:bg-teal-400 dark:hover:bg-teal-300 text-white dark:text-slate-950 font-semibold px-8 py-3.5 rounded-full transition-all duration-200 cursor-pointer active:scale-95 text-sm shadow-sm hover:shadow disabled:opacity-70 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 size={16} className="animate-spin" />
+                            <span>Sending Message...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Send Message</span>
+                            <Send size={15} />
+                          </>
+                        )}
+                      </button>
+
+                      <span className="text-xs text-slate-400 dark:text-slate-500 hidden sm:inline-block">
+                        Direct reply guaranteed
+                      </span>
+                    </div>
+                  </form>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
