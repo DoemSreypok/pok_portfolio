@@ -6,7 +6,7 @@ export const About: React.FC = () => {
   const handleDownloadCV = () => {
     const cvContent = `SREYPOK DOEM (PINKY)
 UX/UI Designer & Web Developer
-Email: sreypokd@gmail.com | Phone: +885 88 45 01 458
+Email: sreypokdoem18@gmail.com | Phone: +885 88 45 01 458
 
 PROFESSIONAL PROFILE:
 UX/UI Designer with experience designing enterprise web applications for the banking sector. Specializing in creating user-centered experiences across the product lifecycle, from UX research and user flows to wireframes, UI design, interactive prototypes, and usability testing.

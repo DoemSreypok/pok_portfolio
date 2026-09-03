@@ -26,13 +26,20 @@ export const Contact: React.FC = () => {
     message: '',
   });
 
+  const [lastSubmittedData, setLastSubmittedData] = useState<{
+    name: string;
+    email: string;
+    services: string[];
+    message: string;
+  } | null>(null);
+
   const availableServices = [
-    'UX/UI Design',
+    'Web App Design',
+    'Mobile Design',
     'Web Development',
+    'Banking Systems',
+    'UI/UX Design',
     'Design Systems',
-    'Mobile App Design',
-    'FinTech Platform',
-    'Consulting',
   ];
 
   const toggleService = (service: string) => {
@@ -56,21 +63,74 @@ export const Contact: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate smooth network submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const submissionPayload = {
+      name: formData.name,
+      email: formData.email,
+      services: selectedServices.join(', '),
+      message: formData.message,
+      _replyto: formData.email,
+      _subject: `New Portfolio Inquiry from ${formData.name} [${selectedServices.join(', ')}]`,
+      _template: 'table',
+      _autoresponse: `Hi ${formData.name},\n\nThank you for reaching out through my portfolio! I have received your message regarding ${selectedServices.join(', ')} and will reply to you within 24 hours.\n\nBest regards,\nSreypok Doem (Pinky)\nUX/UI Designer & Web Developer`,
+    };
+
+    try {
+      // Send real email to sreypokdoem18@gmail.com via FormSubmit AJAX
+      const response = await fetch('https://formsubmit.co/ajax/sreypokdoem18@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(submissionPayload),
+      });
+
+      setLastSubmittedData({
+        name: formData.name,
+        email: formData.email,
+        services: [...selectedServices],
+        message: formData.message,
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        // Fallback to mailto if external endpoint fails
+        const subject = encodeURIComponent(`Portfolio Inquiry: ${formData.name} [${selectedServices.join(', ')}]`);
+        const body = encodeURIComponent(
+          `Hello Sreypok,\n\nHere are my inquiry details:\n\n• Name: ${formData.name}\n• Email: ${formData.email}\n• Interested In: ${selectedServices.join(', ')}\n\n• Message:\n${formData.message}\n\nSent from Portfolio Website`
+        );
+        window.open(`mailto:sreypokdoem18@gmail.com?subject=${subject}&body=${body}`);
+        setSubmitted(true);
+      }
+    } catch {
+      setLastSubmittedData({
+        name: formData.name,
+        email: formData.email,
+        services: [...selectedServices],
+        message: formData.message,
+      });
+      // Fallback to mailto
+      const subject = encodeURIComponent(`Portfolio Inquiry: ${formData.name} [${selectedServices.join(', ')}]`);
+      const body = encodeURIComponent(
+        `Hello Sreypok,\n\nHere are my inquiry details:\n\n• Name: ${formData.name}\n• Email: ${formData.email}\n• Interested In: ${selectedServices.join(', ')}\n\n• Message:\n${formData.message}\n\nSent from Portfolio Website`
+      );
+      window.open(`mailto:sreypokdoem18@gmail.com?subject=${subject}&body=${body}`);
       setSubmitted(true);
-    }, 900);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setSubmitted(false);
     setFormData({ name: '', email: '', message: '' });
-    setSelectedServices(['UX/UI Design']);
+    setSelectedServices(['Web App Design']);
+    setLastSubmittedData(null);
   };
 
   return (
@@ -131,17 +191,17 @@ export const Contact: React.FC = () => {
                   <div>
                     <span className="text-xs text-slate-500 dark:text-[#86868b] block font-medium">Direct Email</span>
                     <a
-                      href="mailto:sreypokd@gmail.com"
+                      href="mailto:sreypokdoem18@gmail.com"
                       className="text-sm sm:text-[15px] font-semibold text-slate-900 dark:text-[#f5f5f7] hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
                     >
-                      sreypokd@gmail.com
+                      sreypokdoem18@gmail.com
                     </a>
                   </div>
                 </div>
 
                 <button
                   type="button"
-                  onClick={() => copyToClipboard('sreypokd@gmail.com', 'email')}
+                  onClick={() => copyToClipboard('sreypokdoem18@gmail.com', 'email')}
                   className="p-2.5 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-[#f5f5f7] hover:bg-slate-100 dark:hover:bg-[#252528] transition-colors cursor-pointer active:scale-95"
                   title="Copy email to clipboard"
                   aria-label="Copy email"
@@ -203,22 +263,68 @@ export const Contact: React.FC = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.3 }}
-                    className="py-12 flex flex-col items-center justify-center text-center space-y-4"
+                    className="py-8 flex flex-col items-center justify-center text-center space-y-5"
                   >
-                    <div className="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shadow-xs">
                       <Check size={32} className="stroke-[2.5]" />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-[#f5f5f7]">
-                      Message Received!
-                    </h3>
-                    <p className="text-slate-600 dark:text-[#86868b] text-sm max-w-sm leading-relaxed">
-                      Thank you for reaching out, <span className="font-semibold text-slate-900 dark:text-white">{formData.name || 'friend'}</span>. I will review your message and get back to you within 24 hours.
-                    </p>
-                    <div className="pt-4">
+
+                    <div className="space-y-1.5">
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-[#f5f5f7]">
+                        Message Sent Successfully!
+                      </h3>
+                      <p className="text-slate-600 dark:text-[#86868b] text-sm max-w-md leading-relaxed">
+                        Thank you for reaching out, <span className="font-semibold text-slate-900 dark:text-white">{lastSubmittedData?.name || formData.name || 'friend'}</span>. Your inquiry has been dispatched to Sreypok Doem.
+                      </p>
+                    </div>
+
+                    {/* Clean User Receipt Card */}
+                    {lastSubmittedData && (
+                      <div className="w-full bg-slate-50 dark:bg-[#141416] border border-slate-200/80 dark:border-white/10 rounded-xl p-5 text-left space-y-3">
+                        <div className="flex items-center justify-between pb-2 border-b border-slate-200/60 dark:border-white/5 text-xs text-slate-500 dark:text-[#86868b]">
+                          <span>Inquiry Receipt</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-medium">● Sent to sreypokdoem18@gmail.com</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-500 block">Sender Name:</span>
+                            <span className="font-semibold text-slate-800 dark:text-slate-200">{lastSubmittedData.name}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-500 block">Sender Email:</span>
+                            <span className="font-semibold text-slate-800 dark:text-slate-200">{lastSubmittedData.email}</span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-slate-400 dark:text-slate-500 block text-xs mb-1.5">Selected Services:</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {lastSubmittedData.services.map((srv) => (
+                              <span
+                                key={srv}
+                                className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-teal-500/10 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300"
+                              >
+                                {srv}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-slate-400 dark:text-slate-500 block text-xs">Message Excerpt:</span>
+                          <p className="text-xs text-slate-700 dark:text-slate-300 mt-1 line-clamp-3 bg-white dark:bg-[#1c1c1f] p-3 rounded-lg border border-slate-200/50 dark:border-white/5">
+                            "{lastSubmittedData.message}"
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="pt-2">
                       <button
                         type="button"
                         onClick={handleReset}
-                        className="inline-flex items-center gap-2 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-800 dark:text-[#f5f5f7] font-medium px-5 py-2.5 rounded-full text-xs transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-950 font-semibold px-6 py-2.5 rounded-full text-xs transition-colors cursor-pointer active:scale-95"
                       >
                         <RotateCcw size={14} />
                         <span>Send another message</span>
@@ -227,7 +333,7 @@ export const Contact: React.FC = () => {
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Service Interest Pill Selector */}
+                    {/* Service Interest Tabs (Styled exactly like Portfolio Category Tabs) */}
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <label className="block text-xs font-bold text-slate-700 dark:text-[#86868b] uppercase tracking-wider">
@@ -237,7 +343,7 @@ export const Contact: React.FC = () => {
                           Select one or more
                         </span>
                       </div>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2.5">
                         {availableServices.map((service) => {
                           const isSelected = selectedServices.includes(service);
                           return (
@@ -245,10 +351,10 @@ export const Contact: React.FC = () => {
                               key={service}
                               type="button"
                               onClick={() => toggleService(service)}
-                              className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer active:scale-95 ${
+                              className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
                                 isSelected
-                                  ? 'bg-teal-500 text-white dark:bg-teal-400 dark:text-slate-950 font-semibold shadow-xs'
-                                  : 'bg-slate-100 dark:bg-[#262629] text-slate-700 dark:text-[#86868b] hover:bg-slate-200/80 dark:hover:bg-[#303034] dark:hover:text-[#f5f5f7]'
+                                  ? 'bg-[#1d1d1f] text-white dark:bg-white dark:text-slate-950 font-semibold shadow-xs ring-2 ring-teal-500/40 dark:ring-teal-400/40'
+                                  : 'bg-white dark:bg-[#252528] text-slate-700 dark:text-[#86868b] hover:text-slate-900 dark:hover:text-[#f5f5f7] hover:bg-slate-100 dark:hover:bg-[#2e2e32] border border-slate-200 dark:border-white/5'
                               }`}
                             >
                               {service}
@@ -328,7 +434,7 @@ export const Contact: React.FC = () => {
                       </button>
 
                       <span className="text-xs text-slate-400 dark:text-slate-500 hidden sm:inline-block">
-                        Direct reply guaranteed
+                        Direct reply to your email
                       </span>
                     </div>
                   </form>
