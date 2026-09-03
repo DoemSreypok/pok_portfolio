@@ -21,7 +21,7 @@ export const Hero: React.FC = () => {
   const handleDownloadCV = () => {
     const cvContent = `SREYPOK DOEM (PINKY)
 FullStack Developer
-Email: sreypokd@gmail.com | Phone: +885 88 45 01 458
+Email: sreypokdoem18@gmail.com | Phone: +885 88 45 01 458
 
 PROFESSIONAL PROFILE:
 Senior UX/UI Designer and Web Developer experienced in designing and engineering high-impact digital products, design systems, and enterprise banking platforms.

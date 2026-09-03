@@ -1,14 +1,18 @@
+import groceryImg from '../assets/images/grocery.png';
+import coffeeImg from '../assets/images/coffee.png';
+import hoseImg from '../assets/images/hose.png';
+
 export interface Project {
   id: string;
   title: string;
-  category: 'Website Design' | 'App Mobile Design' | 'App Desktop' | 'Branding';
+  category: 'Web App Design' | 'Mobile Design' | 'Web Development' | 'Banking Systems' | string;
   roleBadge: string;
   techBadge: string;
   description: string;
   image: string;
+  UrlLink?: string;
   liveUrl?: string;
   githubUrl?: string;
-  caseStudyUrl?: string;
 }
 
 export const stats = [
@@ -140,56 +144,56 @@ export const projects: Project[] = [
   {
     id: 'grocery-shop',
     title: 'OmniChannel Grocery Platform',
-    category: 'App Mobile Design',
+    category: 'Mobile Design',
     roleBadge: 'UX/UI & Mobile App',
     techBadge: 'Figma & React Native',
     description: 'Streamlined mobile shopping experience with intelligent search, smart cart management, recipe discovery, and a frictionless 2-step checkout flow.',
-    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80',
-    caseStudyUrl: '#',
+    image: groceryImg,
+    UrlLink: 'link',
     liveUrl: '#',
   },
   {
     id: 'coffee-shop',
     title: 'Artisan Coffee Ordering & Loyalty App',
-    category: 'App Mobile Design',
+    category: 'Mobile Design',
     roleBadge: 'UX Flow & Dark UI',
     techBadge: 'Figma & Tailwind CSS',
     description: 'Dark-themed beverage ordering application featuring rewards point tracking, personalized brewing presets, and express in-store pickup booking.',
-    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80',
-    caseStudyUrl: '#',
+    image: coffeeImg,
+    UrlLink: 'link',
     liveUrl: '#',
   },
   {
     id: 'rental-house',
     title: 'Enterprise Property Management Portal',
-    category: 'Website Design',
+    category: 'Web App Design',
     roleBadge: 'Full-Stack Web UX',
     techBadge: 'Next.js & Django REST',
     description: 'Comprehensive property listing and tenant management platform built for institutional portfolios with live contract oversight and financial reporting.',
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80',
-    caseStudyUrl: '#',
+    image: hoseImg,
+    UrlLink: 'link',
     liveUrl: '#',
   },
   {
     id: 'bank-portal',
     title: 'FinTech Banking Core Dashboard',
-    category: 'App Desktop',
+    category: 'Banking Systems',
     roleBadge: 'Design System & UI Architecture',
     techBadge: 'React & TypeScript',
     description: 'High-density banking operations portal designed for rapid teller transactions, account auditing, and real-time compliance validation.',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-    caseStudyUrl: '#',
+    UrlLink: '  ',
     liveUrl: '#',
   },
   {
     id: 'brand-identity',
     title: 'FinTech Brand Identity & Component Library',
-    category: 'Branding',
+    category: 'Web Development',
     roleBadge: 'Design System & Tokens',
     techBadge: 'Illustrator & Figma',
     description: 'Modular design system tokenization and digital brand guidelines ensuring unified visual consistency across web dashboards and native mobile apps.',
     image: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=800&q=80',
-    caseStudyUrl: '#',
+    UrlLink: 'link',
     liveUrl: '#',
   },
 ];

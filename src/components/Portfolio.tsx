@@ -9,13 +9,13 @@ export const Portfolio: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
 
-  const categories = [
-    'All',
-    'Website Design',
-    'App Mobile Design',
-    'App Desktop',
-    'Branding',
-  ];
+const categories = [
+  'All',
+  'Web App Design',
+  'Mobile Design',
+  'Web Development',
+  'Banking Systems',
+];
 
   const filteredProjects =
     selectedCategory === 'All'
@@ -108,14 +108,15 @@ export const Portfolio: React.FC = () => {
 
                   {/* Dual Action CTAs */}
                   <div className="pt-4 border-t border-slate-100 dark:border-white/5 flex items-center justify-between gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setActiveModalProject(project)}
+                    <a
+                      href={project.UrlLink && project.UrlLink !== 'link' && project.UrlLink !== '#' ? project.UrlLink : '#'}
+                      target={project.UrlLink && project.UrlLink.startsWith('http') ? '_blank' : undefined}
+                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline cursor-pointer"
                     >
-                      <span>Case Study</span>
+                      <span>Live Demo</span>
                       <ArrowRight size={14} />
-                    </button>
+                    </a>
 
                     <div className="flex items-center gap-2">
                       <button

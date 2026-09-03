@@ -138,13 +138,24 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
                   Close
                 </button>
 
+                {project.UrlLink && project.UrlLink !== 'link' && project.UrlLink !== '#' && (
+                  <a
+                    href={project.UrlLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 dark:bg-teal-400 dark:hover:bg-teal-300 text-white dark:text-slate-950 text-xs font-semibold transition-colors"
+                  >
+                    <span>Live Demo</span>
+                    <ExternalLink size={13} />
+                  </a>
+                )}
+
                 <a
                   href="#contact"
                   onClick={onClose}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 dark:bg-teal-400 dark:hover:bg-teal-300 text-white dark:text-slate-950 text-xs font-semibold transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 text-xs font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
                 >
-                  <span>Request Full Case Study</span>
-                  <ExternalLink size={13} />
+                  <span>Contact Me</span>
                 </a>
               </div>
             </div>
