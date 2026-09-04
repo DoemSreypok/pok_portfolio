@@ -67,26 +67,110 @@ export const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const submissionPayload = {
-      name: formData.name,
-      email: formData.email,
-      services: selectedServices.join(', '),
-      message: formData.message,
-      _replyto: formData.email,
-      _subject: `New Portfolio Inquiry from ${formData.name} [${selectedServices.join(', ')}]`,
-      _template: 'table',
-      _autoresponse: `Hi ${formData.name},\n\nThank you for reaching out through my portfolio! I have received your message regarding ${selectedServices.join(', ')} and will reply to you within 24 hours.\n\nBest regards,\nSreypok Doem (Pinky)\nUX/UI Designer & Web Developer`,
-    };
+    const now = new Date();
+    const timestamp = now.toLocaleString('en-US', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+      hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Phnom_Penh',
+    });
+
+    const servicesBadges = selectedServices
+      .map(s => `<span style="display:inline-block;background:#14b8a6;color:#fff;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;margin:2px 3px 2px 0;">${s}</span>`)
+      .join('');
+
+    const htmlBody = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>New Portfolio Inquiry</title></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:32px 16px;">
+    <tr><td align="center">
+      <table width="100%" style="max-width:560px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 60%,#134e4a 100%);padding:32px 36px;">
+            <p style="margin:0 0 4px 0;font-size:11px;font-weight:700;letter-spacing:2px;color:#14b8a6;text-transform:uppercase;">Portfolio Inquiry</p>
+            <h1 style="margin:0 0 6px 0;font-size:22px;font-weight:800;color:#ffffff;line-height:1.3;">New Message Received 📩</h1>
+            <p style="margin:0;font-size:12px;color:#94a3b8;">${timestamp} (Phnom Penh, UTC+7)</p>
+          </td>
+        </tr>
+
+        <!-- Sender Info -->
+        <tr>
+          <td style="padding:28px 36px 0 36px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
+              <tr>
+                <td style="padding:16px 20px;border-bottom:1px solid #e2e8f0;">
+                  <p style="margin:0 0 3px 0;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#94a3b8;text-transform:uppercase;">From</p>
+                  <p style="margin:0;font-size:16px;font-weight:700;color:#0f172a;">${formData.name}</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:16px 20px;">
+                  <p style="margin:0 0 3px 0;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#94a3b8;text-transform:uppercase;">Reply To</p>
+                  <a href="mailto:${formData.email}" style="margin:0;font-size:14px;font-weight:600;color:#14b8a6;text-decoration:none;">${formData.email}</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Services -->
+        <tr>
+          <td style="padding:20px 36px 0 36px;">
+            <p style="margin:0 0 10px 0;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#64748b;text-transform:uppercase;">Interested In</p>
+            <div style="line-height:2;">${servicesBadges}</div>
+          </td>
+        </tr>
+
+        <!-- Message -->
+        <tr>
+          <td style="padding:20px 36px 0 36px;">
+            <p style="margin:0 0 10px 0;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#64748b;text-transform:uppercase;">Project Message</p>
+            <div style="background:#f8fafc;border-left:3px solid #14b8a6;border-radius:0 8px 8px 0;padding:16px 18px;">
+              <p style="margin:0;font-size:14px;line-height:1.75;color:#334155;white-space:pre-wrap;">${formData.message}</p>
+            </div>
+          </td>
+        </tr>
+
+        <!-- CTA Button -->
+        <tr>
+          <td style="padding:28px 36px;">
+            <a href="mailto:${formData.email}?subject=Re: Your Portfolio Inquiry"
+               style="display:inline-block;background:#14b8a6;color:#ffffff;font-size:13px;font-weight:700;padding:12px 28px;border-radius:999px;text-decoration:none;letter-spacing:0.3px;">
+              ↩ Reply to ${formData.name}
+            </a>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:18px 36px;">
+            <p style="margin:0;font-size:11px;color:#94a3b8;line-height:1.6;">
+              This message was sent through your <strong style="color:#64748b;">portfolio contact form</strong> at sreypokdoem18@gmail.com.<br>
+              <strong style="color:#64748b;">Sreypok Doem (Pinky)</strong> · UX/UI Designer & Web Developer · Phnom Penh, Cambodia
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+    const formPayload = new FormData();
+    formPayload.append('name', formData.name);
+    formPayload.append('email', formData.email);
+    formPayload.append('_replyto', formData.email);
+    formPayload.append('_subject', `📩 New Inquiry from ${formData.name} — ${selectedServices.join(', ')}`);
+    formPayload.append('_html', htmlBody);
+    formPayload.append('_captcha', 'false');
 
     try {
-      // Send real email to sreypokdoem18@gmail.com via FormSubmit AJAX
-      const response = await fetch('https://formsubmit.co/ajax/sreypokdoem18@gmail.com', {
+      const response = await fetch('https://formsubmit.co/sreypokdoem18@gmail.com', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(submissionPayload),
+        body: formPayload,
       });
 
       setLastSubmittedData({
@@ -96,10 +180,10 @@ export const Contact: React.FC = () => {
         message: formData.message,
       });
 
-      if (response.ok) {
+      if (response.ok || response.status === 200 || response.type === 'opaque') {
         setSubmitted(true);
       } else {
-        // Fallback to mailto if external endpoint fails
+        // Fallback to mailto
         const subject = encodeURIComponent(`Portfolio Inquiry: ${formData.name} [${selectedServices.join(', ')}]`);
         const body = encodeURIComponent(
           `Hello Sreypok,\n\nHere are my inquiry details:\n\n• Name: ${formData.name}\n• Email: ${formData.email}\n• Interested In: ${selectedServices.join(', ')}\n\n• Message:\n${formData.message}\n\nSent from Portfolio Website`
@@ -114,7 +198,6 @@ export const Contact: React.FC = () => {
         services: [...selectedServices],
         message: formData.message,
       });
-      // Fallback to mailto
       const subject = encodeURIComponent(`Portfolio Inquiry: ${formData.name} [${selectedServices.join(', ')}]`);
       const body = encodeURIComponent(
         `Hello Sreypok,\n\nHere are my inquiry details:\n\n• Name: ${formData.name}\n• Email: ${formData.email}\n• Interested In: ${selectedServices.join(', ')}\n\n• Message:\n${formData.message}\n\nSent from Portfolio Website`
