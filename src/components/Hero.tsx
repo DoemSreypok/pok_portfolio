@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Download } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 import myPhotoCutout from '../assets/images/my-photo-cutout.png';
 
 export const Hero: React.FC = () => {
@@ -16,36 +16,6 @@ export const Hero: React.FC = () => {
         behavior: 'smooth',
       });
     }
-  };
-
-  const handleDownloadCV = () => {
-    const cvContent = `SREYPOK DOEM (PINKY)
-FullStack Developer
-Email: srey••••18@gmail.com | Phone: (+885) 88 45 •• 458
-
-PROFESSIONAL PROFILE:
-Senior UX/UI Designer and Web Developer experienced in designing and engineering high-impact digital products, design systems, and enterprise banking platforms.
-
-TRACK RECORD:
-- 3+ Years of Experience in UX/UI Design & Web Development
-- 20+ Completed Digital Projects
-- 12+ Enterprise & Banking Core Systems
-
-CORE EXPERTISE:
-- UX/UI Design: User Research, Journey Mapping, Information Architecture, Wireframing, Figma Design Systems, Interactive Prototyping, Usability Testing (WCAG Accessibility)
-- Web Development: React.js, Next.js, Angular, TypeScript, JavaScript, Tailwind CSS, Bootstrap, HTML5/CSS3
-- Backend & Databases: Node.js, Express.js, Django REST, PostgreSQL, MongoDB, Oracle Database
-- Tools & DevOps: Git & GitHub, Docker, Postman`;
-
-    const blob = new Blob([cvContent], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'Sreypok_Doem_CV.txt';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -110,7 +80,7 @@ CORE EXPERTISE:
               </div>
             </div>
 
-            {/* Dual CTA Buttons */}
+            {/* CTA Button */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 type="button"
@@ -119,15 +89,6 @@ CORE EXPERTISE:
               >
                 <span>Portfolio Demo</span>
                 <ArrowDown size={17} className="stroke-[2.5]" />
-              </button>
-
-              <button
-                type="button"
-                onClick={handleDownloadCV}
-                className="inline-flex items-center justify-center gap-2 bg-white dark:bg-[#1d1d1f] hover:bg-slate-100 dark:hover:bg-[#252528] text-slate-800 dark:text-[#f5f5f7] font-medium px-7 py-3.5 rounded-full transition-all duration-200 cursor-pointer text-sm"
-              >
-                <span>Download CV</span>
-                <Download size={17} className="stroke-[2]" />
               </button>
             </div>
           </motion.div>

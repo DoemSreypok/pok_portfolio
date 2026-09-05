@@ -3,9 +3,6 @@ import { ArrowUp } from 'lucide-react';
 import {
   FaLinkedinIn,
   FaGithub,
-  FaInstagram,
-  FaDribbble,
-  FaBehance,
 } from 'react-icons/fa6';
 
 export const Footer: React.FC = () => {
@@ -52,28 +49,7 @@ export const Footer: React.FC = () => {
       hoverBg: 'hover:bg-slate-900 hover:border-slate-900 hover:text-white dark:hover:bg-white dark:hover:border-white dark:hover:text-slate-950',
       glow: 'hover:shadow-slate-900/25 dark:hover:shadow-white/20',
       icon: <FaGithub size={16} />,
-    },
-    {
-      name: 'Instagram',
-      href: 'https://instagram.com',
-      hoverBg: 'hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:border-transparent hover:text-white',
-      glow: 'hover:shadow-[#dc2743]/25',
-      icon: <FaInstagram size={16} />,
-    },
-    {
-      name: 'Dribbble',
-      href: 'https://dribbble.com',
-      hoverBg: 'hover:bg-[#EA4C89] hover:border-[#EA4C89] hover:text-white',
-      glow: 'hover:shadow-[#EA4C89]/25',
-      icon: <FaDribbble size={16} />,
-    },
-    {
-      name: 'Behance',
-      href: 'https://behance.net',
-      hoverBg: 'hover:bg-[#0057FF] hover:border-[#0057FF] hover:text-white',
-      glow: 'hover:shadow-[#0057FF]/25',
-      icon: <FaBehance size={16} />,
-    },
+    }
   ];
 
   return (
