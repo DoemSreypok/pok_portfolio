@@ -14,9 +14,9 @@ export const About: React.FC = () => {
     {
       role: 'Web Developer Intern',
       company: 'Zination',
-      period: 'Internship (01 August 2023 – 01 December 2023)',
+      period: '01 August 2023 – 01 December 2023',
       description:
-        'Contributed to web application frontend development, building reusable UI components, integrating APIs, and optimizing interface performance.',
+        'First experience learning and developing with Django, React.js, and Next.js. Configured SaaS starter kits and built practical web applications including a to-do list project with reusable component architecture.',
     },
   ];
 

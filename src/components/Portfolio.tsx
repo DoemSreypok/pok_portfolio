@@ -14,7 +14,6 @@ export const Portfolio: React.FC = () => {
     'Banking Systems',
     'Web App Design',
     'Mobile Design',
-    'Web Development',
   ];
 
   const filteredProjects =

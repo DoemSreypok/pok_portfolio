@@ -13,7 +13,7 @@ import staffRequisitionImg from '../assets/images/staff reqisition.png';
 export interface Project {
   id: string;
   title: string;
-  category: 'Web App Design' | 'Mobile Design' | 'Web Development' | 'Banking Systems' | 'Full-Stack Development' | string;
+  category: 'Web App Design' | 'Mobile Design' | 'Banking Systems' | 'Full-Stack Development' | string;
   roleBadge: string;
   techBadge: string;
   description: string;
@@ -271,17 +271,6 @@ export const projects: Project[] = [
     restricted: true,
   },
 
-  {
-    id: 'brand-identity',
-    title: 'FinTech Brand Identity & Component Library',
-    category: 'Web Development',
-    roleBadge: 'Design System & Tokens',
-    techBadge: 'Illustrator & Figma',
-    description: 'Modular design system tokenization and digital brand guidelines ensuring unified visual consistency across web dashboards and native mobile apps.',
-    image: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=800&q=80',
-    UrlLink: 'link',
-    liveUrl: '#',
-  },
 
   // ─── Confidential Banking Systems (Internal Access Only) ─────────────────
   {

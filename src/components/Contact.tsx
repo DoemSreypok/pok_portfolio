@@ -272,19 +272,19 @@ export const Contact: React.FC = () => {
                     <Mail size={20} className="stroke-[1.8]" />
                   </div>
                   <div>
-                    <span className="text-xs text-slate-500 dark:text-[#86868b] block font-medium">Direct Email</span>
-                    <a
-                      href="mailto:sreypokdoem18@gmail.com"
-                      className="text-sm sm:text-[15px] font-semibold text-slate-900 dark:text-[#f5f5f7] hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
-                    >
-                      sreypokdoem18@gmail.com
-                    </a>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-slate-500 dark:text-[#86868b] block font-medium">Direct Email</span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 font-medium">Anti-Scam Protected</span>
+                    </div>
+                    <span className="text-sm sm:text-[15px] font-semibold text-slate-900 dark:text-[#f5f5f7] tracking-wide">
+                      srey••••18@gmail.com
+                    </span>
                   </div>
                 </div>
 
                 <button
                   type="button"
-                  onClick={() => copyToClipboard('sreypokdoem18@gmail.com', 'email')}
+                  onClick={() => copyToClipboard('srey••••18@gmail.com', 'email')}
                   className="p-2.5 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-[#f5f5f7] hover:bg-slate-100 dark:hover:bg-[#252528] transition-colors cursor-pointer active:scale-95"
                   title="Copy email to clipboard"
                   aria-label="Copy email"
@@ -300,19 +300,19 @@ export const Contact: React.FC = () => {
                     <Phone size={20} className="stroke-[1.8]" />
                   </div>
                   <div>
-                    <span className="text-xs text-slate-500 dark:text-[#86868b] block font-medium">Direct Phone</span>
-                    <a
-                      href="tel:+885884501458"
-                      className="text-sm sm:text-[15px] font-semibold text-slate-900 dark:text-[#f5f5f7] hover:text-teal-600 dark:hover:text-teal-400 transition-colors font-mono"
-                    >
-                      (+885) 88 45 01 458
-                    </a>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-slate-500 dark:text-[#86868b] block font-medium">Direct Phone</span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 font-medium">Anti-Scam Protected</span>
+                    </div>
+                    <span className="text-sm sm:text-[15px] font-semibold text-slate-900 dark:text-[#f5f5f7] font-mono tracking-wide">
+                      (+885) 88 45 •• 458
+                    </span>
                   </div>
                 </div>
 
                 <button
                   type="button"
-                  onClick={() => copyToClipboard('+885884501458', 'phone')}
+                  onClick={() => copyToClipboard('(+885) 88 45 •• 458', 'phone')}
                   className="p-2.5 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-[#f5f5f7] hover:bg-slate-100 dark:hover:bg-[#252528] transition-colors cursor-pointer active:scale-95"
                   title="Copy phone to clipboard"
                   aria-label="Copy phone number"

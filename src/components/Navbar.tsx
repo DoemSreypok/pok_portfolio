@@ -104,19 +104,38 @@ export const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
           <button
             type="button"
             onClick={() => setDarkMode((prev) => !prev)}
-            aria-label="Toggle theme"
-            className="flex items-center dark:bg-[#1d1d1f] bg-slate-200 rounded-full p-1 w-16 h-8 cursor-pointer relative transition-colors"
+            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="flex items-center bg-slate-200 dark:bg-[#1d1d1f] border border-slate-300/70 dark:border-white/10 rounded-full p-1 w-16 h-8 cursor-pointer relative transition-colors shadow-inner"
           >
+            {/* Background Track Icons (Sun on Left, Moon on Right) */}
+            <div className="absolute inset-0 flex items-center justify-between px-2.5 pointer-events-none">
+              <Sun
+                size={12}
+                className={`text-slate-400 dark:text-zinc-500 transition-opacity duration-200 ${
+                  darkMode ? 'opacity-70' : 'opacity-0'
+                }`}
+              />
+              <Moon
+                size={12}
+                className={`text-slate-400 dark:text-slate-500 transition-opacity duration-200 ${
+                  darkMode ? 'opacity-0' : 'opacity-70'
+                }`}
+              />
+            </div>
+
+            {/* Sliding Knob */}
             <div
-              className={`w-6 h-6 rounded-full bg-teal-400 flex items-center justify-center text-slate-950 transition-all duration-300 transform ${
-                darkMode ? 'translate-x-8 bg-teal-400' : 'translate-x-0 bg-slate-900 text-teal-300'
+              className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 transform shadow-md relative z-10 ${
+                darkMode
+                  ? 'translate-x-8 bg-teal-400 text-slate-950'
+                  : 'translate-x-0 bg-teal-500 text-white'
               }`}
             >
-              {darkMode ? <Moon size={14} className="fill-slate-950 stroke-none" /> : <Sun size={14} className="text-white" />}
-            </div>
-            <div className="absolute inset-0 flex justify-between items-center px-2 pointer-events-none text-slate-400 text-xs">
-              <Moon size={12} className={darkMode ? 'opacity-0' : 'opacity-70'} />
-              <Sun size={12} className={darkMode ? 'opacity-70' : 'opacity-0'} />
+              {darkMode ? (
+                <Moon size={13} className="fill-slate-950 stroke-none" />
+              ) : (
+                <Sun size={13} className="text-white" />
+              )}
             </div>
           </button>
 
