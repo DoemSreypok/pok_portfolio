@@ -61,28 +61,44 @@ export const Portfolio: React.FC = () => {
                 key={category}
                 type="button"
                 onClick={() => setSelectedCategory(category)}
-                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
+                className={`relative px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-[#1d1d1f] text-white dark:bg-white dark:text-slate-950 font-semibold shadow-md'
-                    : 'bg-white dark:bg-[#1d1d1f] text-slate-700 dark:text-[#86868b] hover:text-slate-900 dark:hover:text-[#f5f5f7] hover:bg-slate-100 dark:hover:bg-[#252528]'
+                    ? 'text-white dark:text-slate-950 font-semibold shadow-md'
+                    : 'text-slate-700 dark:text-[#86868b] hover:text-slate-900 dark:hover:text-[#f5f5f7] bg-white dark:bg-[#1d1d1f] hover:bg-slate-100 dark:hover:bg-[#252528] shadow-sm'
                 }`}
               >
-                {category}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeCategoryPill"
+                    className="absolute inset-0 bg-[#1d1d1f] dark:bg-white rounded-full -z-0"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
+                <span className="relative z-10">{category}</span>
               </button>
             );
           })}
         </div>
 
         {/* Project Grid */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-          <AnimatePresence>
+        <motion.div
+          layout
+          transition={{ duration: 0.35, ease: 'easeInOut' }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7"
+        >
+          <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
               <motion.article
                 layout
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0, scale: 0.94, y: 12 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.94, y: -8 }}
+                transition={{
+                  layout: { type: 'spring', stiffness: 350, damping: 32 },
+                  opacity: { duration: 0.22 },
+                  scale: { duration: 0.22 },
+                  y: { duration: 0.22 },
+                }}
                 key={project.id}
                 className="bg-white dark:bg-[#1d1d1f] rounded-2xl overflow-hidden flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1 border border-slate-200/60 dark:border-white/5 shadow-sm hover:shadow-xl"
               >
